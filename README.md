@@ -186,6 +186,22 @@ group :opf_plugins do
 end
 ```
 
+### Docker installation
+
+If you have deployed OpenProject with Docker, the recommended process of installing plugins (as per [official documentation](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins)) will not work. In short, you will have to create a custom Dockerfile image with the plugin already installed.
+
+* Clone from the Openproject Repo: `git clone https://github.com/opf/openproject.git . --single-branch --branch=stable/12 --depth=1`
+* Clone the plugin inside the modules folder: `git clone https://github.com/btey/openproject-gitlab-integration.git modules/gitlab_integration --single-branch --depth=1`
+* Apply the same changes documented just above and commit. Alternatively, apply the patch provided in this repo with `git am modules/gitlab_integration/gitlab_integration.patch`
+* Build the container: `docker build --file=docker/prod/Dockerfile .`
+* Tag the image: `docker image tag <hash> openproject/community:12`
+
+If you're building on a different machine, you will have to transfer the image to the machine you're using to deploy. One way of doing so is:
+
+* Save the image you just built to a file: `docker image save openproject/community -o myfile`
+* Transfer the file to the machine you plan on using it on
+* Load the file: `docker image load myfile`
+
 ### The Gitlab Bot user in OpenProject
 
 First you will need to create a user in OpenProject that will make the comments. The user will have to be added to each project with a role that allows them to comment on work packages and change status.

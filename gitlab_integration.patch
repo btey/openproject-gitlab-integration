@@ -1,0 +1,63 @@
+From: Alessandro Uffreduzzi <alessandro.uffreduzzi@pytech.it>
+Date: Thu, 3 Feb 2022 18:13:00 +0100
+Subject: [PATCH] Apply Changes for Gitlab Integration Plugin
+
+---
+ Gemfile.lock                                               | 7 +++++++
+ Gemfile.modules                                            | 1 +
+ .../endpoints/work_packages/api-v3-work-package-paths.ts   | 3 +++
+ 3 files changed, 11 insertions(+)
+
+diff --git a/Gemfile.lock b/Gemfile.lock
+index f4c8715..dceb4e0 100644
+--- a/Gemfile.lock
++++ b/Gemfile.lock
+@@ -100,6 +100,12 @@ PATH
+     openproject-github_integration (1.0.0)
+       openproject-webhooks
+ 
++PATH
++  remote: modules/gitlab_integration
++  specs:
++    openproject-gitlab_integration (2.0.3)
++      openproject-webhooks
++
+ PATH
+   remote: modules/grids
+   specs:
+@@ -1053,6 +1059,7 @@ DEPENDENCIES
+   openproject-boards!
+   openproject-documents!
+   openproject-github_integration!
++  openproject-gitlab_integration!
+   openproject-job_status!
+   openproject-ldap_groups!
+   openproject-meeting!
+diff --git a/Gemfile.modules b/Gemfile.modules
+index d2698da..2e3aff9 100644
+--- a/Gemfile.modules
++++ b/Gemfile.modules
+@@ -34,6 +34,7 @@ group :opf_plugins do
+   gem 'openproject-two_factor_authentication', path: 'modules/two_factor_authentication'
+   gem 'openproject-webhooks',                  path: 'modules/webhooks'
+   gem 'openproject-github_integration',        path: 'modules/github_integration'
++  gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
+   gem 'openproject-ldap_groups',               path: 'modules/ldap_groups'
+   gem 'openproject-recaptcha',                 path: 'modules/recaptcha'
+   gem 'openproject-job_status',                path: 'modules/job_status'
+diff --git a/frontend/src/app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths.ts b/frontend/src/app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths.ts
+index bcd05b8..7fdfac2 100644
+--- a/frontend/src/app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths.ts
++++ b/frontend/src/app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths.ts
+@@ -51,6 +51,9 @@ export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageReso
+   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/github_pull_requests
+   public readonly github_pull_requests = this.subResource('github_pull_requests');
+ 
++   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/gitlab_merge_requests
++  public readonly gitlab_merge_requests = this.subResource('gitlab_merge_requests');
++
+   protected createCache():StateCacheService<WorkPackageResource> {
+     return (this.parent as APIV3WorkPackagesPaths).cache;
+   }
+-- 
+2.34.1
