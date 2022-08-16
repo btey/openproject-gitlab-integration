@@ -42,9 +42,11 @@ module OpenProject::GitlabIntegration
 
     register 'openproject-gitlab_integration',
              :author_url => 'https://github.com/btey/openproject',
-             bundled: true
-
-    patches %w[WorkPackage]
+             bundled: true do
+      project_module(:gitlab, dependencies: :work_package_tracking) do
+        permission(:show_gitlab_content, {})
+      end
+    end
 
     initializer 'gitlab.register_hook' do
       ::OpenProject::Webhooks.register_hook 'gitlab' do |hook, environment, params, user|
@@ -52,25 +54,18 @@ module OpenProject::GitlabIntegration
       end
     end
 
-    initializer 'gitlab.subscribe_to_notifications' do
-      ::OpenProject::Notifications.subscribe('gitlab.merge_request_hook',
-                                             &NotificationHandlers.method(:merge_request_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.note_hook',
-                                             &NotificationHandlers.method(:note_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.issue_hook',
-                                             &NotificationHandlers.method(:issue_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.push_hook',
-                                             &NotificationHandlers.method(:push_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.pipeline_hook',
-                                             &NotificationHandlers.method(:pipeline_hook))
-    end
-
-    initializer 'gitlab.permissions' do
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module(:gitlab, dependencies: :work_package_tracking) do |pm_map|
-          pm_map.permission(:show_gitlab_content, {})
-        end
-      end
+    initializer 'gitlab.subscribe_to_notifications' do |app|
+      app.config.after_initialize do
+        ::OpenProject::Notifications.subscribe('gitlab.merge_request_hook',
+                                              &NotificationHandlers.method(:merge_request_hook))
+        ::OpenProject::Notifications.subscribe('gitlab.note_hook',
+                                              &NotificationHandlers.method(:note_hook))
+        ::OpenProject::Notifications.subscribe('gitlab.issue_hook',
+                                              &NotificationHandlers.method(:issue_hook))
+        ::OpenProject::Notifications.subscribe('gitlab.push_hook',
+                                              &NotificationHandlers.method(:push_hook))
+        ::OpenProject::Notifications.subscribe('gitlab.pipeline_hook',
+                                              &NotificationHandlers.method(:pipeline_hook))
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
@@ -96,6 +91,5 @@ module OpenProject::GitlabIntegration
       # Register the cron job to clean up old gitlab merge requests
       ::Cron::CronJob.register! ::Cron::ClearOldMergeRequestsJob
     end
-
   end
 end
