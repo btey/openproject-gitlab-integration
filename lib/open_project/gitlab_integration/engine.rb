@@ -66,6 +66,7 @@ module OpenProject::GitlabIntegration
                                               &NotificationHandlers.method(:push_hook))
         ::OpenProject::Notifications.subscribe('gitlab.pipeline_hook',
                                               &NotificationHandlers.method(:pipeline_hook))
+      end
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
