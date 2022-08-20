@@ -72,7 +72,7 @@ module OpenProject::GitlabIntegration
             pm_map.permission(:show_gitlab_content, {})
           end
         end
-	  end
+      end
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
