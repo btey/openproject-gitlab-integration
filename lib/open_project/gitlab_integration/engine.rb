@@ -66,11 +66,13 @@ module OpenProject::GitlabIntegration
     end
 
     initializer 'gitlab.permissions' do
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module(:gitlab, dependencies: :work_package_tracking) do |pm_map|
-          pm_map.permission(:show_gitlab_content, {})
+	  Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.map do |ac_map|
+          ac_map.project_module(:gitlab, dependencies: :work_package_tracking) do |pm_map|
+            pm_map.permission(:show_gitlab_content, {})
+          end
         end
-      end
+	  end
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
