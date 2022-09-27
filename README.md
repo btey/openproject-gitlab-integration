@@ -35,10 +35,12 @@ OpenProject will **add comments** to work package for the following events:
 
 OpenProject will **update WP status** in this events:
 
-* Merge Request (opened) - Status: In progress (currently ID=7)
-* Merge Request (merged) - Status: Developed (currently ID=8)
+* Merge Request (opened)         - Status: In progress (currently ID=7)
+* Merge Request (merged)         - Status: Developed (currently ID=8)
+* Push Request ("fixed"-keyword) - Status: Developed (currently ID=8)
 
-> **Note about the status.** If you want to change the ID of the status you can do this in this section of the [code](https://github.com/btey/openproject-gitlab-integration/blob/master/lib/open_project/gitlab_integration/notification_handler/merge_request_hook.rb#L40-L41). By default is *disabled*, you can enable it by setting to `true` this [lines](https://github.com/btey/openproject-gitlab-integration/blob/master/lib/open_project/gitlab_integration/notification_handler/merge_request_hook.rb#L38-L39).
+> **Note about the status.** If you want to change the ID of the status with merge, you can do this in this section of the [code](https://github.com/btey/openproject-gitlab-integration/blob/master/lib/open_project/gitlab_integration/notification_handler/merge_request_hook.rb#L40-L41).By default is *disabled*, you can enable it by setting to `true` this [lines](https://github.com/btey/openproject-gitlab-integration/blob/master/lib/open_project/gitlab_integration/notification_handler/merge_request_hook.rb#L38-L39).
+If you want to change the ID of the status with "fixed"-keyword, you can do this in this section of the [code](https://github.com/btey/openproject-gitlab-integration/blob/master/lib/open_project/gitlab_integration/notification_handler/push_hook.rb#L40). By default is *disabled*, you can enable it by setting to `true` this [line](https://github.com/btey/openproject-gitlab-integration/blob/master/lib/open_project/gitlab_integration/notification_handler/push_hook.rb#L38).
 
 ## Example workflow
 

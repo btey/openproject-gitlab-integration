@@ -35,6 +35,10 @@ module OpenProject::GitlabIntegration
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
       
       def process(payload_params)
+        update_status_on_fixed = false # true if you only reference one commit by work_package, else false.
+
+        wp_status_id_on_fixed = 8 # the id of the status.
+
         @payload = wrap_payload(payload_params)
         return nil unless payload.object_kind == 'push'
         payload.commits.each do |commit|
@@ -43,6 +47,9 @@ module OpenProject::GitlabIntegration
           work_packages = find_mentioned_work_packages(text, user)
           notes = generate_notes(commit, payload)
           comment_on_referenced_work_packages(work_packages, user, notes)
+          if (text.include? "fixed") && (update_status_on_fixed)
+            status_on_referenced_work_packages(work_packages, user, wp_status_id_on_fixed)
+          end
         end
       end
 
