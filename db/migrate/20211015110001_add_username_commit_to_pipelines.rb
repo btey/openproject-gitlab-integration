@@ -27,39 +27,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::GitlabIntegration
-  module NotificationHandler
-    ##
-    # Handles Gitlab pipeline notifications.
-    class PipelineHook
-      include OpenProject::GitlabIntegration::NotificationHandler::Helper
+class AddUsernameCommitToPipelines < ActiveRecord::Migration[7.0]
+  def change
+    add_column :gitlab_pipelines, :username, :text
 
-      def process(payload_params)
-        @payload = wrap_payload(payload_params)
-
-        return unless associated_with_mr?
-        merge_request = find_merge_request
-        return unless merge_request
-
-        # disabled until gitlab issue resolution
-        OpenProject::GitlabIntegration::Services::UpsertPipeline.new.call(
-          payload,
-          merge_request: merge_request
-        )
-      end
-
-      private
-
-      attr_reader :payload
-
-      def associated_with_mr?
-        payload.merge_request.iid?.present?
-      end
-
-      def find_merge_request
-        gitlab_id = payload.merge_request.iid
-        GitlabMergeRequest.find_by(gitlab_id: gitlab_id)
-      end
-    end
+    add_column :gitlab_pipelines, :commit_id, :text
   end
 end

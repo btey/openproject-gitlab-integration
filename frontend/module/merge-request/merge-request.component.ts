@@ -85,10 +85,10 @@ export class MergeRequestComponent {
       case 'queued': {
         return 'getting-started'
       }
-      case 'in_progress': {
+      case 'running': {
         return 'loading1'
       }
-      case 'failure': {
+      case 'failed': {
         return 'cancel'
       }
       case 'timed_out': {

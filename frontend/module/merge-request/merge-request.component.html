@@ -18,7 +18,7 @@
     [src]="mergeRequest.gitlabUser.avatarUrl"
     *ngIf="mergeRequest.gitlabUser"
   />
-  <span class='op-merge-request--user'>
+  <span class='op-merge-request--user'> 
     <a
       [href]="'mailto:' + mergeRequest.gitlabUser.email"
       [textContent]="mergeRequest.gitlabUser.login"
@@ -45,7 +45,7 @@
   </span>
 </div>
 
-<!-- <span class="op-merge-request--pipeline-label"  *ngIf="mergeRequest.pipelines?.length">{{ text.label_pipelines }}</span>
+<span class="op-merge-request--pipeline-label"  *ngIf="mergeRequest.pipelines?.length">{{ text.label_pipelines }}</span>
 
 <ul [attr.aria-label]="text.label_pipelines" class='op-merge-request--pipeline' *ngIf="mergeRequest.pipelines?.length">
   <li class='op-mr-pipeline' *ngFor="let pipeline of mergeRequest.pipelines">
@@ -53,17 +53,10 @@
       <op-icon icon-classes="icon-{{ pipelineStateIcon(pipeline) }}"
                [icon-title]="pipelineStateText(pipeline)"></op-icon>
     </span>
-    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /></span>
 
-    <span class='op-mr-pipeline--info'>
-      <span class='op-mr-pipeline--name' [textContent]="pipeline.name"></span>
-      <span class='op-mr-pipeline--state' [textContent]="pipelineStateText(pipeline)"></span>
-    </span>
+    <span class='op-mr-pipeline--info'>Merge request pipeline <a [href]="pipeline.htmlUrl">#{{ pipeline.name }}</a> {{ pipelineStateText(pipeline) }} for <a [href]="pipeline.detailsUrl">#{{ pipeline.commitId }}</a></span>
 
-    <span class='op-mr-pipeline--details'>
-      <a [href]="pipeline.detailsUrl">
-        {{ text.label_details }}
-      </a>
-    </span>
+    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /> {{ pipeline.username }}</span>
+
   </li>
-</ul> -->
+</ul>
