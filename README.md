@@ -1,3 +1,16 @@
+# NOTE: This plugin is now part of OpenProject Core 🥳
+
+As of [opf/openproject#14881](https://github.com/opf/openproject/pull/14881) this plugin was merged into OpenProject core [v13.4](https://www.openproject.org/docs/release-notes/13-4-0/). Hence, further changes or improvements will be made directly within OpenProject.
+
+**Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin module folder and bundler references before upgrading to openproject. Your historical dataset will remain unaffected within OpenProject as there were no changes to the data model.
+
+Before upgrading, please do the following:
+
+1. Remove traces of gitlab integration in your **Gemfile.lock** and **Gemfile.modules** See [Configuration section](#configuration)
+2. Remove the module code traces of the gitlab integration. `rm -rf /path/to/openproject/modules/gitlab_integration`
+
+Many thanks to everyone who worked on this plugin – inside and outside of OpenProject's core development team! Such projects are a great example of the power of open source collaboration.💙
+
 ## Introducing OpenProject GitLab Integration v2.1.6 GA
 
 <div><a href="https://jb.gg/OpenSourceSupport"><img width="300" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/bc7b3e7f-163d-4bcf-ab31-9f5982b8d2fc"></a></div>
